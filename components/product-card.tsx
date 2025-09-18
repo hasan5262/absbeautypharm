@@ -14,21 +14,31 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const [isLiked, setIsLiked] = useState(false)
+  const [imageError, setImageError] = useState(false)
 
   const handleAddToCart = () => {
     // Simple notification for demo purposes
     alert(`${product.name} added to cart!`)
   }
 
+  console.log("[v0] Product image URL:", product.image_url, "for product:", product.name)
+
   return (
     <Link href={`/products/${product.id}`}>
       <Card className="group relative overflow-hidden bg-white/80 backdrop-blur-sm border-gray-200/50 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
         <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-          {product.image_url ? (
+          {product.image_url && !imageError ? (
             <img
               src={product.image_url || "/placeholder.svg"}
               alt={product.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              onError={() => {
+                console.log("[v0] Image failed to load:", product.image_url)
+                setImageError(true)
+              }}
+              onLoad={() => {
+                console.log("[v0] Image loaded successfully:", product.image_url)
+              }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

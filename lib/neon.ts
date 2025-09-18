@@ -1,9 +1,9 @@
 import { neon } from "@neondatabase/serverless"
 
-const sql = neon(process.env.DATABASE_URL!)
+const sql = neon(process.env.NEON_DATABASE_URL!)
 
 export interface Product {
-  id: string
+  id: number
   name: string
   description: string
   volume: string | null
@@ -52,7 +52,7 @@ export async function getAllProducts(): Promise<Product[]> {
 export async function getProductById(id: string): Promise<Product | null> {
   try {
     const result = await sql`
-      SELECT * FROM products WHERE id = ${id}
+      SELECT * FROM products WHERE id = ${Number.parseInt(id)}
     `
     return result.length > 0 ? (result[0] as Product) : null
   } catch (error) {
@@ -96,12 +96,12 @@ export async function updateProduct(id: string, updates: Partial<Product>): Prom
     // Build the SET clause dynamically
     const setEntries = Object.entries(updateFields)
     const setClause = setEntries.map(([key], index) => `${key} = $${index + 2}`).join(", ")
-    const values = [id, ...setEntries.map(([, value]) => value)]
+    const values = [Number.parseInt(id), ...setEntries.map(([, value]) => value)]
 
     const result = await sql`
       UPDATE products 
       SET ${sql.unsafe(setClause)}, updated_at = NOW()
-      WHERE id = ${id}
+      WHERE id = ${Number.parseInt(id)}
       RETURNING *
     `
     return result.length > 0 ? (result[0] as Product) : null
@@ -113,10 +113,56 @@ export async function updateProduct(id: string, updates: Partial<Product>): Prom
 
 export async function deleteProduct(id: string): Promise<boolean> {
   try {
-    await sql`DELETE FROM products WHERE id = ${id}`
+    await sql`DELETE FROM products WHERE id = ${Number.parseInt(id)}`
     return true
   } catch (error) {
     console.error("Error deleting product:", error)
     return false
+  }
+}
+
+export async function searchProducts(query: string): Promise<Product[]> {
+  try {
+    const searchTerm = `%${query.toLowerCase()}%`
+    const result = await sql`
+      SELECT * FROM products 
+      WHERE LOWER(name) LIKE ${searchTerm} 
+         OR LOWER(description) LIKE ${searchTerm}
+         OR LOWER(category) LIKE ${searchTerm}
+         OR LOWER(active_ingredients) LIKE ${searchTerm}
+      ORDER BY created_at DESC
+    `
+    return result as Product[]
+  } catch (error) {
+    console.error("Error searching products:", error)
+    return []
+  }
+}
+
+export async function getProductsByCategory(category: string): Promise<Product[]> {
+  try {
+    const result = await sql`
+      SELECT * FROM products 
+      WHERE LOWER(category) = ${category.toLowerCase()}
+      ORDER BY created_at DESC
+    `
+    return result as Product[]
+  } catch (error) {
+    console.error("Error fetching products by category:", error)
+    return []
+  }
+}
+
+export async function getCategories(): Promise<string[]> {
+  try {
+    const result = await sql`
+      SELECT DISTINCT category FROM products 
+      WHERE category IS NOT NULL 
+      ORDER BY category
+    `
+    return result.map((row: any) => row.category)
+  } catch (error) {
+    console.error("Error fetching categories:", error)
+    return []
   }
 }

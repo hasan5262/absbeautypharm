@@ -3,14 +3,16 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { AnimatedBackground } from "@/components/animated-background"
+import { DynamicGlow } from "@/components/dynamic-glow"
 import { Header } from "@/components/header"
 import { ArrowLeft, ShoppingCart } from "lucide-react"
 import Link from "next/link"
 
 export default function CheckoutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-800/60 to-black">
       <AnimatedBackground />
+      <DynamicGlow />
       <Header />
 
       <div className="container mx-auto px-4 py-16">

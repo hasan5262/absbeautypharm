@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { AnimatedBackground } from "@/components/animated-background"
+import { DynamicGlow } from "@/components/dynamic-glow"
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("")
@@ -45,8 +46,9 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-800/60 to-black flex items-center justify-center p-6">
       <AnimatedBackground />
+      <DynamicGlow />
       <div className="w-full max-w-md relative z-10">
         <Card className="bg-white/90 backdrop-blur-sm border-gray-200/50">
           <CardHeader className="text-center">
