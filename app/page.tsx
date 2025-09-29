@@ -15,7 +15,6 @@ import { createBrowserClient } from "@supabase/ssr"
 interface Product {
   id: number
   name: string
-  price: number
   image_url: string
   category: string
   description: string
@@ -33,7 +32,7 @@ export default function HomePage() {
 
       const { data, error } = await supabase
         .from("products")
-        .select("id, name, price, image_url, category, description")
+        .select("id, name, image_url, category, description")
         .eq("in_stock", true)
         .limit(9)
         .order("created_at", { ascending: false })

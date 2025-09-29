@@ -11,7 +11,6 @@ import { ScrollReveal } from "@/components/scroll-reveal"
 interface Product {
   id: number
   name: string
-  price: number
   image_url: string
   category: string
   description: string
@@ -97,8 +96,8 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
                         </h3>
                         <p className="text-gray-300 text-sm mb-4 line-clamp-2">{product.description}</p>
                         <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold text-white">${product.price.toFixed(2)}</span>
-                          <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                          {/* Removed price display, replaced with arrow only */}
+                          <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all ml-auto" />
                         </div>
                       </div>
                     </CardContent>

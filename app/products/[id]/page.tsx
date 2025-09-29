@@ -106,7 +106,6 @@ export default async function ProductDetailPage({
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-3xl font-bold text-white">${product.price.toFixed(2)}</span>
               {product.volume && (
                 <Badge variant="outline" className="border-white/30 text-white">
                   {product.volume}

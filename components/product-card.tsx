@@ -86,19 +86,20 @@ export function ProductCard({ product }: ProductCardProps) {
             )}
 
             <div className="flex items-center justify-between pt-2">
-              <span className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</span>
-              <Button
-                size="sm"
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleAddToCart()
-                }}
-                className="bg-black hover:bg-gray-800 text-white"
-                disabled={!product.in_stock}
-              >
-                <ShoppingCart className="h-4 w-4 mr-1" />
-                {product.in_stock ? "Add" : "Out"}
-              </Button>
+              <div className="flex-1">
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleAddToCart()
+                  }}
+                  className="bg-black hover:bg-gray-800 text-white w-full"
+                  disabled={!product.in_stock}
+                >
+                  <ShoppingCart className="h-4 w-4 mr-1" />
+                  {product.in_stock ? "Add to Cart" : "Out of Stock"}
+                </Button>
+              </div>
             </div>
           </div>
         </CardContent>

@@ -15,7 +15,6 @@ interface Product {
   name: string
   description: string
   volume: string | null
-  price: number
   category: string
   effects: string[]
   image_url: string | null
