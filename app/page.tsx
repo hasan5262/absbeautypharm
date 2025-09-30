@@ -1,7 +1,10 @@
 "use client"
 
+import type React from "react"
+
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
 import { AnimatedBackground } from "@/components/animated-background"
 import { DynamicGlow } from "@/components/dynamic-glow"
 import { Header } from "@/components/header"
@@ -23,6 +26,8 @@ interface Product {
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [email, setEmail] = useState("")
+  const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
@@ -57,6 +62,21 @@ export default function HomePage() {
 
     fetchFeaturedProducts()
   }, [])
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubscribeStatus("loading")
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      setSubscribeStatus("success")
+      setEmail("")
+      setTimeout(() => setSubscribeStatus("idle"), 3000)
+    } catch (error) {
+      setSubscribeStatus("error")
+      setTimeout(() => setSubscribeStatus("idle"), 3000)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-800/60 to-black relative">
@@ -250,25 +270,39 @@ export default function HomePage() {
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-white font-semibold">Support</h4>
-                <div className="space-y-2 text-sm">
-                  <Link href="/faq" className="block text-gray-300 hover:text-white transition-colors">
-                    FAQ
-                  </Link>
-                  <Link href="/privacy" className="block text-gray-300 hover:text-white transition-colors">
-                    Privacy Policy
-                  </Link>
-                  <Link href="/terms" className="block text-gray-300 hover:text-white transition-colors">
-                    Terms of Service
-                  </Link>
-                </div>
+                <h4 className="text-white font-semibold">Stay Updated</h4>
+                <p className="text-gray-300 text-sm">Subscribe to our newsletter for exclusive offers and updates.</p>
+                <form onSubmit={handleSubscribe} className="space-y-2">
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="bg-gray-800/50 border-gray-600 text-white placeholder-gray-400"
+                  />
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={subscribeStatus === "loading" || subscribeStatus === "success"}
+                  >
+                    {subscribeStatus === "loading"
+                      ? "Subscribing..."
+                      : subscribeStatus === "success"
+                        ? "Subscribed!"
+                        : "Subscribe"}
+                  </Button>
+                  {subscribeStatus === "error" && (
+                    <p className="text-red-400 text-xs">Failed to subscribe. Please try again.</p>
+                  )}
+                </form>
               </div>
             </div>
           </ScrollReveal>
 
           <ScrollReveal direction="fade" delay={300}>
             <div className="border-t border-white/10 mt-8 pt-8 text-center">
-              <p className="text-gray-300 text-sm">© 2024 ABS Beauty Pharm S.A.R.L. All rights reserved.</p>
+              <p className="text-gray-300 text-sm">© 2025 ABS Beauty Pharm S.A.R.L. All rights reserved.</p>
             </div>
           </ScrollReveal>
         </div>

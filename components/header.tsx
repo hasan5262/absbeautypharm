@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Menu, X, User, Search } from "lucide-react"
+import { Menu, X, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 
 export function Header() {
@@ -96,16 +96,6 @@ export function Header() {
                 Contact
               </Link>
             </nav>
-
-            {/* User Account Button */}
-            <div className="mt-8 pt-6 border-t border-gray-700">
-              <Link href="/auth/login" onClick={() => setIsMenuOpen(false)}>
-                <Button className="w-full bg-white text-black hover:bg-gray-200 rounded-xl py-3">
-                  <User className="h-5 w-5 mr-2" />
-                  Account
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       )}
