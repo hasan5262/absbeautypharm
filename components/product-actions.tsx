@@ -3,12 +3,15 @@
 import { Button } from "@/components/ui/button"
 import { MessageCircle, Heart, Share2 } from "lucide-react"
 import type { Product } from "@/lib/database"
+import { useToast } from "@/hooks/use-toast"
 
 interface ProductActionsProps {
   product: Product
 }
 
 export function ProductActions({ product }: ProductActionsProps) {
+  const { toast } = useToast()
+
   const handleWhatsAppOrder = () => {
     const phoneNumber = "96171020517" // +961 71020517 without + and spaces
     const message = encodeURIComponent(`Hi! I'm interested in ordering: ${product.name}`)
@@ -16,8 +19,21 @@ export function ProductActions({ product }: ProductActionsProps) {
     window.open(whatsappUrl, "_blank")
   }
 
-  const handleShare = () => {
-    alert("Share functionality coming soon!")
+  const handleShare = async () => {
+    try {
+      const url = window.location.href
+      await navigator.clipboard.writeText(url)
+      toast({
+        title: "Link copied",
+        description: "Product link has been copied to clipboard",
+      })
+    } catch (error) {
+      toast({
+        title: "Failed to copy",
+        description: "Please try again",
+        variant: "destructive",
+      })
+    }
   }
 
   return (
