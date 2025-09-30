@@ -12,7 +12,7 @@ export function Header() {
   return (
     <>
       <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-7xl mx-auto px-4">
-        <div className="bg-black/80 backdrop-blur-md rounded-2xl border border-gray-700/50 shadow-2xl">
+        <div className="bg-black/40 backdrop-blur-md rounded-2xl border border-gray-700/50 shadow-2xl">
           <div className="flex items-center justify-between h-16 px-6">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
