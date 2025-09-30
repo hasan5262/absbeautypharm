@@ -7,7 +7,7 @@ import { DynamicGlow } from "@/components/dynamic-glow"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Search } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo, useCallback } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 
 interface Product {
@@ -33,19 +33,22 @@ export default function ProductsPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const categories = [
-    "All Products",
-    "Cleansers",
-    "Moisturizers",
-    "Treatments",
-    "Serums",
-    "Masks",
-    "Eye Care",
-    "Anti-Aging",
-    "Body Care",
-    "Professional",
-    "Toners",
-  ]
+  const categories = useMemo(
+    () => [
+      "All Products",
+      "Cleansers",
+      "Moisturizers",
+      "Treatments",
+      "Serums",
+      "Masks",
+      "Eye Care",
+      "Anti-Aging",
+      "Body Care",
+      "Professional",
+      "Toners",
+    ],
+    [],
+  )
 
   useEffect(() => {
     const category = searchParams.get("category") || "All Products"
@@ -72,9 +75,17 @@ export default function ProductsPage() {
         }
 
         const result = await response.json()
-        setProducts(result)
+
+        const uniqueProducts = result.filter(
+          (product: Product, index: number, self: Product[]) =>
+            index === self.findIndex((p) => p.name === product.name) &&
+            product.image_url &&
+            !product.image_url.includes("placeholder"),
+        )
+
+        setProducts(uniqueProducts)
       } catch (error) {
-        console.error("Error fetching products:", error)
+        console.error("[v0] Error fetching products:", error)
         setProducts([])
       } finally {
         setLoading(false)
@@ -84,27 +95,33 @@ export default function ProductsPage() {
     fetchProducts()
   }, [searchQuery, selectedCategory])
 
-  const handleSearchChange = (value: string) => {
-    setSearchQuery(value)
-    const params = new URLSearchParams()
-    if (value.trim()) {
-      params.set("search", value)
-    }
-    if (selectedCategory !== "All Products") {
-      params.set("category", selectedCategory)
-    }
-    router.push(`/products?${params.toString()}`)
-  }
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setSearchQuery(value)
+      const params = new URLSearchParams()
+      if (value.trim()) {
+        params.set("search", value)
+      }
+      if (selectedCategory !== "All Products") {
+        params.set("category", selectedCategory)
+      }
+      router.push(`/products?${params.toString()}`)
+    },
+    [selectedCategory, router],
+  )
 
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category)
-    setSearchQuery("") // Clear search when selecting category
-    const params = new URLSearchParams()
-    if (category !== "All Products") {
-      params.set("category", category)
-    }
-    router.push(`/products?${params.toString()}`)
-  }
+  const handleCategoryClick = useCallback(
+    (category: string) => {
+      setSelectedCategory(category)
+      setSearchQuery("")
+      const params = new URLSearchParams()
+      if (category !== "All Products") {
+        params.set("category", category)
+      }
+      router.push(`/products?${params.toString()}`)
+    },
+    [router],
+  )
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-800/60 to-black">
@@ -114,7 +131,7 @@ export default function ProductsPage() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-4">Mesopharm Products</h1>
+          <h1 className="text-4xl font-bold text-white mb-4">ABS Beauty Pharm Products</h1>
           <p className="text-gray-400 text-lg">
             {loading
               ? "Loading products..."

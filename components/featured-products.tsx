@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -23,15 +23,19 @@ interface FeaturedProductsProps {
 export function FeaturedProducts({ products }: FeaturedProductsProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  const totalSlides = useMemo(() => Math.ceil(products.length / 3), [products.length])
+  const visibleProducts = useMemo(
+    () => products.slice(currentIndex * 3, currentIndex * 3 + 3),
+    [products, currentIndex],
+  )
+
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % Math.ceil(products.length / 3))
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides)
   }
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + Math.ceil(products.length / 3)) % Math.ceil(products.length / 3))
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalSlides) % totalSlides)
   }
-
-  const visibleProducts = products.slice(currentIndex * 3, currentIndex * 3 + 3)
 
   if (products.length === 0) {
     return null
@@ -51,27 +55,31 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
 
         <div className="relative">
           {/* Navigation Buttons */}
-          <div className="absolute -left-4 top-1/2 transform -translate-y-1/2 z-10">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={prevSlide}
-              className="bg-black/40 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-          </div>
+          {totalSlides > 1 && (
+            <>
+              <div className="absolute -left-4 top-1/2 transform -translate-y-1/2 z-10">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={prevSlide}
+                  className="bg-black/40 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+              </div>
 
-          <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-10">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={nextSlide}
-              className="bg-black/40 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
+              <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-10">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={nextSlide}
+                  className="bg-black/40 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </>
+          )}
 
           {/* Products Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -84,6 +92,11 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
                         <img
                           src={product.image_url || "/placeholder.svg?height=300&width=300"}
                           alt={product.name}
+                          loading="lazy"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement
+                            target.src = "/skincare-product-display.png"
+                          }}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                         />
                         <Badge className="absolute top-3 left-3 bg-black/60 text-white border-white/30">
@@ -96,7 +109,6 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
                         </h3>
                         <p className="text-gray-300 text-sm mb-4 line-clamp-2">{product.description}</p>
                         <div className="flex items-center justify-between">
-                          {/* Removed price display, replaced with arrow only */}
                           <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all ml-auto" />
                         </div>
                       </div>
@@ -108,15 +120,18 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
           </div>
 
           {/* Pagination Dots */}
-          <div className="flex justify-center space-x-2 mb-8">
-            {Array.from({ length: Math.ceil(products.length / 3) }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all ${index === currentIndex ? "bg-white" : "bg-white/30"}`}
-              />
-            ))}
-          </div>
+          {totalSlides > 1 && (
+            <div className="flex justify-center space-x-2 mb-8">
+              {Array.from({ length: totalSlides }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${index === currentIndex ? "bg-white" : "bg-white/30"}`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* View All Products Button */}

@@ -1,10 +1,12 @@
 "use client"
 
+import type React from "react"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ShoppingCart, Heart } from "lucide-react"
-import { useState } from "react"
+import { useState, memo } from "react"
 import Link from "next/link"
 import type { Product } from "@/lib/database"
 
@@ -12,33 +14,33 @@ interface ProductCardProps {
   product: Product
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
   const [isLiked, setIsLiked] = useState(false)
   const [imageError, setImageError] = useState(false)
 
-  const handleAddToCart = () => {
-    // Simple notification for demo purposes
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault()
     alert(`${product.name} added to cart!`)
   }
 
-  console.log("[v0] Product image URL:", product.image_url, "for product:", product.name)
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setIsLiked(!isLiked)
+  }
+
+  const hasValidImage = product.image_url && !product.image_url.includes("placeholder") && !imageError
 
   return (
-    <Link href={`/products/${product.id}`}>
+    <Link href={`/products/${product.id}`} prefetch={false}>
       <Card className="group relative overflow-hidden bg-white/80 backdrop-blur-sm border-gray-200/50 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
         <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-          {product.image_url && !imageError ? (
+          {hasValidImage ? (
             <img
               src={product.image_url || "/placeholder.svg"}
               alt={product.name}
+              loading="lazy"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              onError={() => {
-                console.log("[v0] Image failed to load:", product.image_url)
-                setImageError(true)
-              }}
-              onLoad={() => {
-                console.log("[v0] Image loaded successfully:", product.image_url)
-              }}
+              onError={() => setImageError(true)}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
@@ -51,10 +53,7 @@ export function ProductCard({ product }: ProductCardProps) {
             variant="ghost"
             size="icon"
             className="absolute top-2 right-2 bg-white/80 hover:bg-white"
-            onClick={(e) => {
-              e.preventDefault()
-              setIsLiked(!isLiked)
-            }}
+            onClick={handleLike}
           >
             <Heart className={`h-4 w-4 ${isLiked ? "fill-red-500 text-red-500" : "text-gray-600"}`} />
           </Button>
@@ -89,10 +88,7 @@ export function ProductCard({ product }: ProductCardProps) {
               <div className="flex-1">
                 <Button
                   size="sm"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleAddToCart()
-                  }}
+                  onClick={handleAddToCart}
                   className="bg-black hover:bg-gray-800 text-white w-full"
                   disabled={!product.in_stock}
                 >
@@ -106,4 +102,4 @@ export function ProductCard({ product }: ProductCardProps) {
       </Card>
     </Link>
   )
-}
+})

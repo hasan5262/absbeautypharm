@@ -10,7 +10,7 @@ import { FeaturedProducts } from "@/components/featured-products"
 import { ArrowRight, Sparkles, Shield, Award, Truck } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { createBrowserClient } from "@supabase/ssr"
+import { getSupabaseBrowserClient } from "@/lib/supabase-singleton"
 
 interface Product {
   id: number
@@ -22,23 +22,36 @@ interface Product {
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
-      const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      )
+      try {
+        const supabase = getSupabaseBrowserClient()
 
-      const { data, error } = await supabase
-        .from("products")
-        .select("id, name, image_url, category, description")
-        .eq("in_stock", true)
-        .limit(9)
-        .order("created_at", { ascending: false })
+        const { data, error } = await supabase
+          .from("products")
+          .select("id, name, image_url, category, description")
+          .eq("in_stock", true)
+          .not("image_url", "is", null)
+          .not("image_url", "like", "%placeholder%")
+          .limit(9)
+          .order("created_at", { ascending: false })
 
-      if (data && !error) {
-        setFeaturedProducts(data)
+        if (error) {
+          console.error("[v0] Error fetching featured products:", error)
+          setFeaturedProducts([])
+        } else if (data) {
+          const uniqueProducts = data.filter(
+            (product, index, self) => index === self.findIndex((p) => p.name === product.name),
+          )
+          setFeaturedProducts(uniqueProducts)
+        }
+      } catch (error) {
+        console.error("[v0] Exception fetching featured products:", error)
+        setFeaturedProducts([])
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -113,7 +126,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Products Section */}
-      <FeaturedProducts products={featuredProducts} />
+      {!loading && featuredProducts.length > 0 && <FeaturedProducts products={featuredProducts} />}
 
       {/* Features Section */}
       <section className="py-16 px-4 relative">

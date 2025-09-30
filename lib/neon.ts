@@ -39,8 +39,12 @@ export async function isAdmin(userId: string): Promise<boolean> {
 export async function getAllProducts(): Promise<Product[]> {
   try {
     const result = await sql`
-      SELECT * FROM products 
-      ORDER BY created_at DESC
+      SELECT DISTINCT ON (name) *
+      FROM products 
+      WHERE image_url IS NOT NULL 
+        AND image_url != '' 
+        AND image_url NOT LIKE '%placeholder%'
+      ORDER BY name, created_at DESC
     `
     return result as Product[]
   } catch (error) {
@@ -125,12 +129,16 @@ export async function searchProducts(query: string): Promise<Product[]> {
   try {
     const searchTerm = `%${query.toLowerCase()}%`
     const result = await sql`
-      SELECT * FROM products 
-      WHERE LOWER(name) LIKE ${searchTerm} 
+      SELECT DISTINCT ON (name) *
+      FROM products 
+      WHERE (LOWER(name) LIKE ${searchTerm} 
          OR LOWER(description) LIKE ${searchTerm}
          OR LOWER(category) LIKE ${searchTerm}
-         OR LOWER(active_ingredients) LIKE ${searchTerm}
-      ORDER BY created_at DESC
+         OR LOWER(active_ingredients) LIKE ${searchTerm})
+        AND image_url IS NOT NULL 
+        AND image_url != '' 
+        AND image_url NOT LIKE '%placeholder%'
+      ORDER BY name, created_at DESC
     `
     return result as Product[]
   } catch (error) {
@@ -142,9 +150,13 @@ export async function searchProducts(query: string): Promise<Product[]> {
 export async function getProductsByCategory(category: string): Promise<Product[]> {
   try {
     const result = await sql`
-      SELECT * FROM products 
+      SELECT DISTINCT ON (name) *
+      FROM products 
       WHERE LOWER(category) = ${category.toLowerCase()}
-      ORDER BY created_at DESC
+        AND image_url IS NOT NULL 
+        AND image_url != '' 
+        AND image_url NOT LIKE '%placeholder%'
+      ORDER BY name, created_at DESC
     `
     return result as Product[]
   } catch (error) {
