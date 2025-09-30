@@ -10,32 +10,15 @@ import { ProductActions } from "@/components/product-actions"
 import { redirect } from "next/navigation"
 import { DynamicGlow } from "@/components/dynamic-glow"
 
-function isValidUUID(str: string): boolean {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-  return uuidRegex.test(str)
-}
-
 export default async function ProductDetailPage({
   params,
 }: {
   params: { id: string }
 }) {
-  console.log("[v0] Full params object:", params)
-  console.log("[v0] params.id type:", typeof params.id)
-  console.log("[v0] params.id length:", params.id?.length)
-  console.log("[v0] params.id value:", JSON.stringify(params.id))
-
-  if (!isValidUUID(params.id)) {
-    console.log("[v0] Invalid UUID format:", params.id)
-    redirect("/products")
-  }
-
   let product: Product | null = null
 
   try {
-    console.log("[v0] About to call getProductById with ID:", params.id)
     product = await getProductById(params.id)
-    console.log("[v0] Product fetched successfully:", product?.name)
   } catch (error) {
     console.error("[v0] Error fetching product:", error)
     redirect("/products")
@@ -87,12 +70,6 @@ export default async function ProductDetailPage({
                 width={500}
                 height={500}
                 className="w-full h-full object-cover"
-                onError={() => {
-                  console.log("[v0] Product detail image failed to load:", product.image_url)
-                }}
-                onLoad={() => {
-                  console.log("[v0] Product detail image loaded successfully:", product.image_url)
-                }}
               />
             </div>
           </div>

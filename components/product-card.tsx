@@ -5,7 +5,7 @@ import type React from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Heart } from "lucide-react"
+import { MessageCircle, Heart } from "lucide-react"
 import { useState, memo } from "react"
 import Link from "next/link"
 import type { Product } from "@/lib/database"
@@ -18,9 +18,12 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
   const [isLiked, setIsLiked] = useState(false)
   const [imageError, setImageError] = useState(false)
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleWhatsAppOrder = (e: React.MouseEvent) => {
     e.preventDefault()
-    alert(`${product.name} added to cart!`)
+    const phoneNumber = "96171020517" // +961 71020517 without + and spaces
+    const message = encodeURIComponent(`Hi! I'm interested in ordering: ${product.name}`)
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
+    window.open(whatsappUrl, "_blank")
   }
 
   const handleLike = (e: React.MouseEvent) => {
@@ -88,12 +91,12 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
               <div className="flex-1">
                 <Button
                   size="sm"
-                  onClick={handleAddToCart}
+                  onClick={handleWhatsAppOrder}
                   className="bg-black hover:bg-gray-800 text-white w-full"
                   disabled={!product.in_stock}
                 >
-                  <ShoppingCart className="h-4 w-4 mr-1" />
-                  {product.in_stock ? "Add to Cart" : "Out of Stock"}
+                  <MessageCircle className="h-4 w-4 mr-1" />
+                  {product.in_stock ? "Order on WhatsApp" : "Out of Stock"}
                 </Button>
               </div>
             </div>

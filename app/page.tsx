@@ -16,7 +16,7 @@ import { useEffect, useState } from "react"
 import { getSupabaseBrowserClient } from "@/lib/supabase-singleton"
 
 interface Product {
-  id: number
+  id: string
   name: string
   image_url: string
   category: string

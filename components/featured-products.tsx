@@ -9,7 +9,7 @@ import Link from "next/link"
 import { ScrollReveal } from "@/components/scroll-reveal"
 
 interface Product {
-  id: number
+  id: string
   name: string
   image_url: string
   category: string

@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
 
 export interface Product {
-  id: string
+  id: number
   name: string
   description: string
   volume: string | null
@@ -31,22 +31,15 @@ export async function getAllProducts(): Promise<Product[]> {
   return products as Product[]
 }
 
-export async function getProductById(id: string): Promise<Product | null> {
-  console.log("[v0] getProductById called with ID:", id)
-  console.log("[v0] ID type:", typeof id)
-  console.log("[v0] ID length:", id?.length)
-  console.log("[v0] ID value:", JSON.stringify(id))
-
+export async function getProductById(id: string | number): Promise<Product | null> {
   const supabase = await createClient()
   const { data: product, error } = await supabase.from("products").select("*").eq("id", id).single()
 
   if (error) {
     console.error("[v0] Database error:", error)
-    console.error("[v0] Error details:", JSON.stringify(error))
     return null
   }
 
-  console.log("[v0] Product found:", product?.name)
   return product as Product
 }
 
@@ -134,7 +127,7 @@ export async function searchProducts(query: string): Promise<Product[]> {
   return results as Product[]
 }
 
-export async function updateProduct(id: string, updates: Partial<Product>): Promise<Product | null> {
+export async function updateProduct(id: string | number, updates: Partial<Product>): Promise<Product | null> {
   const supabase = await createClient()
   const { data: product, error } = await supabase
     .from("products")
@@ -176,7 +169,7 @@ export async function createProduct(
   return newProduct as Product
 }
 
-export async function deleteProduct(id: string): Promise<boolean> {
+export async function deleteProduct(id: string | number): Promise<boolean> {
   const supabase = await createClient()
   const { error } = await supabase.from("products").delete().eq("id", id)
 
