@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: "ABS Beauty Pharm - Professional Skincare Solutions",
   description: "Advanced beauty and pharmaceutical solutions for transformative skincare results",
   generator: "v0.app",
+  icons: {
+    icon: "/favicon.ico",
+  },
 }
 
 export default function RootLayout({
