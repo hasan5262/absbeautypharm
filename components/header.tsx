@@ -16,7 +16,7 @@ export function Header() {
           <div className="flex items-center justify-between h-16 px-6">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
-              <img src="/images/abs-logo.png" alt="ABS Beauty Pharm" className="h-16 w-auto rounded-lg" />
+              <img src="/images/abs-favicon.png" alt="ABS Beauty Pharm" className="h-12 w-auto" />
             </Link>
 
             {/* Menu Button */}
@@ -53,7 +53,7 @@ export function Header() {
 
             {/* Logo in popup */}
             <div className="flex justify-center mb-8">
-              <img src="/images/abs-logo.png" alt="ABS Beauty Pharm" className="h-20 w-auto rounded-lg" />
+              <img src="/images/abs-favicon.png" alt="ABS Beauty Pharm" className="h-16 w-auto" />
             </div>
 
             {/* Search Bar */}
