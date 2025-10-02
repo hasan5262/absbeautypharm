@@ -82,13 +82,6 @@ export function Header() {
                 Categories
               </Link>
               <Link
-                href="/about"
-                className="text-white hover:text-gray-300 transition-colors py-3 px-4 rounded-xl hover:bg-white/5 text-center text-lg"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link
                 href="/contact"
                 className="text-white hover:text-gray-300 transition-colors py-3 px-4 rounded-xl hover:bg-white/5 text-center text-lg"
                 onClick={() => setIsMenuOpen(false)}
