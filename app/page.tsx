@@ -117,13 +117,15 @@ export default function HomePage() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-white/50 text-white hover:bg-white/20 px-8 py-6 text-lg bg-black/20 backdrop-blur-sm"
-                >
-                  Learn More
-                </Button>
+                <Link href="/contact">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-white/50 text-white hover:bg-white/20 px-8 py-6 text-lg bg-black/20 backdrop-blur-sm"
+                  >
+                    Contact
+                  </Button>
+                </Link>
               </div>
             </ScrollReveal>
           </div>
