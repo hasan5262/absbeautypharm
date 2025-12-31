@@ -124,15 +124,15 @@ export default function ProductsPage() {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-800/60 to-black">
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/60 to-background">
       <AnimatedBackground />
       <DynamicGlow />
       <Header />
 
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-4">ABS Beauty Pharm Products</h1>
-          <p className="text-gray-400 text-lg">
+          <h1 className="text-4xl font-bold text-foreground mb-4">ABS Beauty Pharm Products</h1>
+          <p className="text-muted-foreground text-lg">
             {loading
               ? "Loading products..."
               : products.length > 0
@@ -143,12 +143,12 @@ export default function ProductsPage() {
 
         <div className="mb-8 space-y-4">
           <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+              className="pl-10 bg-card/10 border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
@@ -159,8 +159,8 @@ export default function ProductsPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => handleCategoryClick(category)}
-                className={`border-white/30 text-white hover:bg-white/10 transition-colors ${
-                  selectedCategory === category ? "bg-white/20 border-white/50" : "bg-transparent"
+                className={`border-border text-foreground hover:bg-accent transition-colors ${
+                  selectedCategory === category ? "bg-accent border-border" : "bg-transparent"
                 }`}
               >
                 {category}
@@ -172,8 +172,8 @@ export default function ProductsPage() {
         {loading ? (
           <div className="text-center py-12">
             <div className="max-w-md mx-auto">
-              <h3 className="text-xl font-semibold text-white mb-2">Loading Products...</h3>
-              <p className="text-gray-400">Please wait while we fetch the latest products.</p>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Loading Products...</h3>
+              <p className="text-muted-foreground">Please wait while we fetch the latest products.</p>
             </div>
           </div>
         ) : products.length > 0 ? (
@@ -185,10 +185,10 @@ export default function ProductsPage() {
         ) : (
           <div className="text-center py-12">
             <div className="max-w-md mx-auto">
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <h3 className="text-xl font-semibold text-foreground mb-2">
                 {searchQuery ? "No Products Found" : "No Products Available"}
               </h3>
-              <p className="text-gray-400 text-lg mb-4">
+              <p className="text-muted-foreground text-lg mb-4">
                 {searchQuery
                   ? `No products match "${searchQuery}". Try a different search term.`
                   : "Our product catalog is currently being updated with new items."}
@@ -196,7 +196,7 @@ export default function ProductsPage() {
               {searchQuery && (
                 <Button
                   onClick={() => handleSearchChange("")}
-                  className="bg-white/10 hover:bg-white/20 text-white border-white/30"
+                  className="bg-accent hover:bg-accent/80 text-accent-foreground border-border"
                 >
                   Clear Search
                 </Button>

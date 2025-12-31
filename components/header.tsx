@@ -12,7 +12,7 @@ export function Header() {
   return (
     <>
       <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-7xl mx-auto px-4">
-        <div className="bg-black/40 backdrop-blur-md rounded-2xl border border-gray-700/50 shadow-2xl">
+        <div className="bg-background/40 backdrop-blur-md rounded-2xl border border-border shadow-2xl">
           <div className="flex items-center justify-between h-16 px-6">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
@@ -23,7 +23,7 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="text-white hover:bg-white/10 rounded-full"
+              className="text-foreground hover:bg-accent rounded-full"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <Menu className="h-6 w-6" />
@@ -37,15 +37,15 @@ export function Header() {
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
+          <div className="absolute inset-0 bg-background/50 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
 
           {/* Popup Navigation */}
-          <div className="relative bg-black/95 backdrop-blur-md rounded-3xl border border-gray-700 p-8 w-full max-w-md shadow-2xl">
+          <div className="relative bg-background/95 backdrop-blur-md rounded-3xl border border-border p-8 w-full max-w-md shadow-2xl">
             {/* Close Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-4 right-4 text-white hover:bg-white/10 rounded-full"
+              className="absolute top-4 right-4 text-foreground hover:bg-accent rounded-full"
               onClick={() => setIsMenuOpen(false)}
             >
               <X className="h-5 w-5" />
@@ -58,10 +58,10 @@ export function Header() {
 
             {/* Search Bar */}
             <div className="relative mb-8">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
                 placeholder="Search products..."
-                className="pl-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 rounded-xl"
+                className="pl-10 bg-secondary border-border text-foreground placeholder:text-muted-foreground rounded-xl"
               />
             </div>
 
@@ -69,21 +69,21 @@ export function Header() {
             <nav className="flex flex-col space-y-4">
               <Link
                 href="/products"
-                className="text-white hover:text-gray-300 transition-colors py-3 px-4 rounded-xl hover:bg-white/5 text-center text-lg"
+                className="text-foreground hover:text-muted-foreground transition-colors py-3 px-4 rounded-xl hover:bg-accent text-center text-lg"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Products
               </Link>
               <Link
                 href="/categories"
-                className="text-white hover:text-gray-300 transition-colors py-3 px-4 rounded-xl hover:bg-white/5 text-center text-lg"
+                className="text-foreground hover:text-muted-foreground transition-colors py-3 px-4 rounded-xl hover:bg-accent text-center text-lg"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Categories
               </Link>
               <Link
                 href="/contact"
-                className="text-white hover:text-gray-300 transition-colors py-3 px-4 rounded-xl hover:bg-white/5 text-center text-lg"
+                className="text-foreground hover:text-muted-foreground transition-colors py-3 px-4 rounded-xl hover:bg-accent text-center text-lg"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact

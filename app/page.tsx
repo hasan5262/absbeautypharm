@@ -79,7 +79,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-800/60 to-black relative">
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/60 to-background relative">
       <AnimatedBackground />
       <DynamicGlow />
       <Header />
@@ -89,21 +89,21 @@ export default function HomePage() {
         <div className="container mx-auto text-center">
           <div className="max-w-4xl mx-auto space-y-8">
             <ScrollReveal direction="fade" delay={200}>
-              <Badge className="bg-black/40 text-white border-white/30 backdrop-blur-sm">
+              <Badge className="bg-background/40 text-foreground border-border backdrop-blur-sm">
                 Professional Beauty & Pharmaceutical Solutions
               </Badge>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={400}>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-                <span className="text-white">Advanced Beauty</span>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
+                <span className="text-foreground">Advanced Beauty</span>
                 <br />
-                <span className="text-white">Redefined</span>
+                <span className="text-foreground">Redefined</span>
               </h1>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={600}>
-              <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
                 Discover ABS Beauty Pharm's revolutionary skincare solutions. Professional-grade formulations for
                 transformative results.
               </p>
@@ -121,7 +121,7 @@ export default function HomePage() {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="border-white/50 text-white hover:bg-white/20 px-8 py-6 text-lg bg-black/20 backdrop-blur-sm"
+                    className="border-border text-foreground hover:bg-accent px-8 py-6 text-lg bg-background/20 backdrop-blur-sm"
                   >
                     Contact
                   </Button>
@@ -177,12 +177,12 @@ export default function HomePage() {
               },
             ].map((feature, index) => (
               <ScrollReveal key={index} direction="up" delay={200 + index * 100}>
-                <div className="text-center space-y-4 p-6 rounded-lg bg-black/20 backdrop-blur-sm border border-white/20">
-                  <div className="w-12 h-12 mx-auto bg-white/20 rounded-full flex items-center justify-center">
-                    <feature.icon className="h-6 w-6 text-white" />
+                <div className="text-center space-y-4 p-6 rounded-lg bg-card/20 backdrop-blur-sm border border-border">
+                  <div className="w-12 h-12 mx-auto bg-accent rounded-full flex items-center justify-center">
+                    <feature.icon className="h-6 w-6 text-accent-foreground" />
                   </div>
-                  <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
-                  <p className="text-gray-100 text-sm">{feature.description}</p>
+                  <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
+                  <p className="text-muted-foreground text-sm">{feature.description}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -194,9 +194,9 @@ export default function HomePage() {
       <section className="py-20 px-4 relative">
         <div className="container mx-auto text-center">
           <ScrollReveal direction="up" delay={200}>
-            <div className="max-w-3xl mx-auto space-y-8 p-8 rounded-2xl bg-black/40 backdrop-blur-sm border border-white/20">
-              <h2 className="text-3xl md:text-4xl font-bold text-white">Transform Your Skincare Routine</h2>
-              <p className="text-gray-200 text-lg">
+            <div className="max-w-3xl mx-auto space-y-8 p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-border">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">Transform Your Skincare Routine</h2>
+              <p className="text-muted-foreground text-lg">
                 Join thousands of satisfied customers who have experienced the ABS Beauty Pharm difference. Professional
                 results, delivered to your door.
               </p>
@@ -212,41 +212,41 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-white/10">
+      <footer className="py-12 px-4 border-t border-border">
         <div className="container mx-auto">
           <ScrollReveal direction="up" delay={100}>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="space-y-4">
                 <img src="/images/abs-logo.png" alt="ABS Beauty Pharm" className="h-10 w-auto" />
-                <p className="text-gray-300 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Professional beauty and pharmaceutical solutions for transformative skincare results.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-white font-semibold">Products</h4>
+                <h4 className="text-foreground font-semibold">Products</h4>
                 <div className="space-y-2 text-sm">
                   <Link
                     href="/products?category=cleansers"
-                    className="block text-gray-300 hover:text-white transition-colors"
+                    className="block text-muted-foreground hover:text-foreground transition-colors"
                   >
                     Cleansers
                   </Link>
                   <Link
                     href="/products?category=moisturizers"
-                    className="block text-gray-300 hover:text-white transition-colors"
+                    className="block text-muted-foreground hover:text-foreground transition-colors"
                   >
                     Moisturizers
                   </Link>
                   <Link
                     href="/products?category=treatments"
-                    className="block text-gray-300 hover:text-white transition-colors"
+                    className="block text-muted-foreground hover:text-foreground transition-colors"
                   >
                     Treatments
                   </Link>
                   <Link
                     href="/products?category=serums"
-                    className="block text-gray-300 hover:text-white transition-colors"
+                    className="block text-muted-foreground hover:text-foreground transition-colors"
                   >
                     Serums
                   </Link>
@@ -254,26 +254,31 @@ export default function HomePage() {
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-white font-semibold">Company</h4>
+                <h4 className="text-foreground font-semibold">Company</h4>
                 <div className="space-y-2 text-sm">
-                  <Link href="/about" className="block text-gray-300 hover:text-white transition-colors">
+                  <Link href="/about" className="block text-muted-foreground hover:text-foreground transition-colors">
                     About Us
                   </Link>
-                  <Link href="/contact" className="block text-gray-300 hover:text-white transition-colors">
+                  <Link href="/contact" className="block text-muted-foreground hover:text-foreground transition-colors">
                     Contact
                   </Link>
-                  <Link href="/shipping" className="block text-gray-300 hover:text-white transition-colors">
+                  <Link
+                    href="/shipping"
+                    className="block text-muted-foreground hover:text-foreground transition-colors"
+                  >
                     Shipping
                   </Link>
-                  <Link href="/returns" className="block text-gray-300 hover:text-white transition-colors">
+                  <Link href="/returns" className="block text-muted-foreground hover:text-foreground transition-colors">
                     Returns
                   </Link>
                 </div>
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-white font-semibold">Stay Updated</h4>
-                <p className="text-gray-300 text-sm">Subscribe to our newsletter for exclusive offers and updates.</p>
+                <h4 className="text-foreground font-semibold">Stay Updated</h4>
+                <p className="text-muted-foreground text-sm">
+                  Subscribe to our newsletter for exclusive offers and updates.
+                </p>
                 <form onSubmit={handleSubscribe} className="space-y-2">
                   <Input
                     type="email"
@@ -281,7 +286,7 @@ export default function HomePage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="bg-gray-800/50 border-gray-600 text-white placeholder-gray-400"
+                    className="bg-secondary border-border text-foreground placeholder:text-muted-foreground"
                   />
                   <Button
                     type="submit"
@@ -295,7 +300,7 @@ export default function HomePage() {
                         : "Subscribe"}
                   </Button>
                   {subscribeStatus === "error" && (
-                    <p className="text-red-400 text-xs">Failed to subscribe. Please try again.</p>
+                    <p className="text-destructive text-xs">Failed to subscribe. Please try again.</p>
                   )}
                 </form>
               </div>
@@ -303,8 +308,8 @@ export default function HomePage() {
           </ScrollReveal>
 
           <ScrollReveal direction="fade" delay={300}>
-            <div className="border-t border-white/10 mt-8 pt-8 text-center">
-              <p className="text-gray-300 text-sm">© 2025 ABS Beauty Pharm S.A.R.L. All rights reserved.</p>
+            <div className="border-t border-border mt-8 pt-8 text-center">
+              <p className="text-muted-foreground text-sm">© 2025 ABS Beauty Pharm S.A.R.L. All rights reserved.</p>
             </div>
           </ScrollReveal>
         </div>

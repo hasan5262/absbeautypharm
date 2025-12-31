@@ -35,8 +35,8 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
 
   return (
     <Link href={`/products/${product.id}`} prefetch={false}>
-      <Card className="group relative overflow-hidden bg-white/80 backdrop-blur-sm border-gray-200/50 hover:bg-white/90 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
-        <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+      <Card className="group relative overflow-hidden bg-card/80 backdrop-blur-sm border-border hover:bg-card/90 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+        <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-muted to-muted/80">
           {hasValidImage ? (
             <img
               src={product.image_url || "/placeholder.svg"}
@@ -47,18 +47,18 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <div className="w-24 h-24 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-gray-700 font-medium text-sm">{product.name.split(":")[0]}</span>
+              <div className="w-24 h-24 bg-gradient-to-br from-muted to-muted/60 rounded-full flex items-center justify-center">
+                <span className="text-muted-foreground font-medium text-sm">{product.name.split(":")[0]}</span>
               </div>
             </div>
           )}
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-2 right-2 bg-white/80 hover:bg-white"
+            className="absolute top-2 right-2 bg-card/80 hover:bg-card"
             onClick={handleLike}
           >
-            <Heart className={`h-4 w-4 ${isLiked ? "fill-red-500 text-red-500" : "text-gray-600"}`} />
+            <Heart className={`h-4 w-4 ${isLiked ? "fill-destructive text-destructive" : "text-muted-foreground"}`} />
           </Button>
         </div>
 
@@ -68,16 +68,16 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
               <Badge variant="secondary" className="text-xs mb-2">
                 {product.category}
               </Badge>
-              <h3 className="font-semibold text-gray-900 line-clamp-2 text-sm">{product.name}</h3>
-              {product.volume && <p className="text-xs text-gray-700 mt-1">{product.volume}</p>}
+              <h3 className="font-semibold text-foreground line-clamp-2 text-sm">{product.name}</h3>
+              {product.volume && <p className="text-xs text-muted-foreground mt-1">{product.volume}</p>}
             </div>
 
-            <p className="text-xs text-gray-800 line-clamp-2">{product.description}</p>
+            <p className="text-xs text-muted-foreground line-clamp-2">{product.description}</p>
 
             {product.effects.length > 0 && (
               <div className="space-y-1">
-                <p className="text-xs font-medium text-gray-900">Key Benefits:</p>
-                <ul className="text-xs text-gray-800 space-y-0.5">
+                <p className="text-xs font-medium text-foreground">Key Benefits:</p>
+                <ul className="text-xs text-muted-foreground space-y-0.5">
                   {product.effects.slice(0, 2).map((effect, index) => (
                     <li key={index} className="line-clamp-1">
                       • {effect}
@@ -92,7 +92,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
                 <Button
                   size="sm"
                   onClick={handleWhatsAppOrder}
-                  className="bg-black hover:bg-gray-800 text-white w-full"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 w-full"
                   disabled={!product.in_stock}
                 >
                   <MessageCircle className="h-4 w-4 mr-1" />
